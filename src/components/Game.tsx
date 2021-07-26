@@ -21,7 +21,7 @@ interface Story {
 
 function Game() {
     const [pathArrState, setPathArrState] = useState<Array<String>>([]);
-    const [createStoryPathState, setCreateStoryPathState] = useState<Boolean>(false);
+    const [currentPathState, setCurrentPathState] = useState<String>('');
 
     useEffect(() => {
         console.log(pathArrState);
@@ -33,34 +33,48 @@ function Game() {
         setPathArrState(pathArrState.concat(newPath));
     }
 
-    const Path:FC<{ownPath: String}> = ({ ownPath }) =>
+    const ChoosePath:FC<{ownPath: String}> = ({ ownPath }) =>
     {
         return (
             <div>
-            <button>
+            <button onClick={() => setCurrentPathState(ownPath)}>
                 {ownPath}
             </button>
             </div>
         );
     }
 
-    const Paths = () => 
+    const Path:FC<{ownPath: String}> = ({ ownPath }) => 
     {
         return (
+        <div>
+            <h1>New screen</h1>
+            <p>You choosed {'\"' + ownPath + '\"'} path</p>
+        </div>
+        );
+    }
+
+    const Paths = () => 
+    {
+        if (currentPathState === '')
+        {
+            return (
             <>
-            {pathArrState.map((path, index) => <Path key={index} ownPath={path} />)}
+                <h1>Hello world!</h1>
+                <p>Current pathes:</p>
+                {pathArrState.map((path, index) => <ChoosePath key={index} ownPath={path} />)}
+                <button onClick={handleCreateStory}>
+                    Create new path!
+                </button>
             </>
-        )
+        )} else {
+            return <Path ownPath={currentPathState} />;
+        }
     }
 
     return (
         <div>
-            <h1>Hello world!</h1>
-            <p>Current pathes:</p>
             <Paths />
-            <button onClick={handleCreateStory}>
-                Create new path!
-            </button>
         </div>
     )
 }
