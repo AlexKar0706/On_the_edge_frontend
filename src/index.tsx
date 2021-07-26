@@ -2,10 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Game from './components/Game'
+import MainPage from './components/MainPage'
+
+import {Route, BrowserRouter as Router, Switch} from 'react-router-dom'
+
+
+const routing = (
+  <Router>
+      <div className="page">
+          <Switch>
+              <Route exact path="/" component={App} />
+              <Route exact path="/game" component={Game} />
+              <Route exact path="/mainPage" component={MainPage} />
+          </Switch>
+      </div>
+  </Router>
+)
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  routing, document.getElementById('root')
 );
