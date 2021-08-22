@@ -1,44 +1,38 @@
 import React, { FC, SetStateAction } from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { Story } from '../interfaces/Story'
 import Path from './Path';
 
-interface Quest {
-    question: String,
-    nextQuestId: Number
-}
-
-interface Dialog {
-    id: Number,
-    senderTextArr: Array<String>,
-    questionArr: Array<Quest>
-}
-
-interface Story {
-    storyPath: String,
-    storyLine: Array<Dialog>
-}
-
 function Game() {
-    const [pathArrState, setPathArrState] = useState<Array<String>>([]);
-    const [currentPathState, setCurrentPathState] = useState<String>('');
+    const [storyArrState, setStoryArrState] = useState<Array<Story>>([]);
+    const [currentStoryState, setCurrentStoryState] = useState<Story | null>(null);
 
     useEffect(() => {
-        console.log(pathArrState);
-    }, [pathArrState])
+        console.log(storyArrState);
+        console.log(currentStoryState);
+    }, [storyArrState])
+
+    useEffect(() => {
+        if (currentStoryState) 
+        {
+            const story = storyArrState.find(({path}) => path === currentStoryState.path);
+            if (story?.dialogs) story.dialogs = currentStoryState.dialogs;
+        }
+    }, [currentStoryState])
 
     function handleCreateStory() 
     {
-        let newPath = String.fromCharCode(pathArrState.length + 97)
-        setPathArrState(pathArrState.concat(newPath));
+        let newPath = String.fromCharCode(storyArrState.length + 97)
+        setStoryArrState(storyArrState.concat({path: newPath, dialogs: []}));
     }
 
-    const ChoosePath:FC<{ownPath: String}> = ({ ownPath }) =>
+    const ChoosePath:FC<{story: Story}> = ({ story }) =>
     {
         return (
             <div>
-            <button onClick={() => setCurrentPathState(ownPath)}>
-                {ownPath}
+            <button onClick={() => setCurrentStoryState(story)}>
+                {story.path}
             </button>
             </div>
         );
@@ -46,19 +40,19 @@ function Game() {
 
     const Paths = () => 
     {
-        if (currentPathState === '')
+        if (currentStoryState === null)
         {
             return (
             <>
                 <h1>Hello world!</h1>
                 <p>Current pathes:</p>
-                {pathArrState.map((path, index) => <ChoosePath key={index} ownPath={path} />)}
+                {storyArrState.map((m_story, index) => <ChoosePath key={index} story={m_story} />)}
                 <button onClick={handleCreateStory}>
                     Create new path!
                 </button>
             </>
         )} else {
-            return <Path ownPath={currentPathState} setPathState={setCurrentPathState} />;
+            return <Path story={currentStoryState} setCurrentStoryState={setCurrentStoryState} />;
         }
     }
 
