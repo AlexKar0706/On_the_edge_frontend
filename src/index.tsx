@@ -5,6 +5,7 @@ import App from './App';
 import Game from './components/Game'
 import MainPage from './components/MainPage'
 import EntryPage from './components/EntryPage/EntryPage'
+import AdminPanel from './components/AdminPanel/AdminPanel'
 
 import {Route, BrowserRouter as Router, Switch} from 'react-router-dom'
 
@@ -17,6 +18,7 @@ const routing = (
               <Route exact path="/game" component={Game} />
               <Route exact path="/mainPage" component={MainPage} />
               <Route exact path="/" component={EntryPage} />
+              <Route exact path="/panel" component={AdminPanel} />
           </Switch>
       </div>
   </Router>

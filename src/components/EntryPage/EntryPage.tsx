@@ -14,7 +14,7 @@ function EntryPage() {
 						<a href="#">Home</a>
 					</li>
 					<li>
-						<a href="#">Admin Panel</a>
+						<a href="/panel">Admin Panel</a>
 					</li>
 					<li>
 						<a href="#">About us</a>
