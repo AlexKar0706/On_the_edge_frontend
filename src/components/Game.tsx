@@ -1,7 +1,7 @@
-import React, { FC } from 'react'
-import { ReactElement } from 'react';
+import React, { FC, SetStateAction } from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Path from './Path';
 
 interface Quest {
     question: String,
@@ -44,16 +44,6 @@ function Game() {
         );
     }
 
-    const Path:FC<{ownPath: String}> = ({ ownPath }) => 
-    {
-        return (
-        <div>
-            <h1>New screen</h1>
-            <p>You choosed {'\"' + ownPath + '\"'} path</p>
-        </div>
-        );
-    }
-
     const Paths = () => 
     {
         if (currentPathState === '')
@@ -68,7 +58,7 @@ function Game() {
                 </button>
             </>
         )} else {
-            return <Path ownPath={currentPathState} />;
+            return <Path ownPath={currentPathState} setPathState={setCurrentPathState} />;
         }
     }
 
