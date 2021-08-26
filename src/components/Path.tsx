@@ -1,12 +1,19 @@
-import React, { FC, SetStateAction } from 'react'
-import { useState, useEffect } from 'react'
+import React, { FC, SetStateAction, useState, useEffect } from 'react'
+
 import { Dialog as DialogInterface } from '../interfaces/Dialog'
 import { Story } from '../interfaces/Story'
+
 import Dialog from './Dialog'
 
-const Path:FC<{story: Story, setCurrentStoryState: React.Dispatch<SetStateAction<Story | null>>}> = ({ story, setCurrentStoryState }) => 
+interface Props 
 {
-    const [currentDialog, setCurrentDialog] = useState<DialogInterface | null>(null) 
+    story: Story, 
+    setCurrentStoryState: React.Dispatch<SetStateAction<Story | null>>
+}
+
+const Path : FC<Props> = ({ story, setCurrentStoryState }) => 
+{
+    const [currentDialogState, setCurrentDialog] = useState<DialogInterface | null>(null)
 
     function handleCreateDialog () 
     {
@@ -28,9 +35,13 @@ const Path:FC<{story: Story, setCurrentStoryState: React.Dispatch<SetStateAction
         );
     }
 
-    const DialogArr = () => 
+    const ConditionalComponent = () => 
     {
-        if (currentDialog) return <Dialog dialog={currentDialog} setCurrentDialog={setCurrentDialog} />;
+        if (currentDialogState) return <Dialog dialogState={currentDialogState} 
+        setCurrentDialogState={setCurrentDialog}
+        story={story}
+        setCurrentStoryState={setCurrentStoryState}
+        />;
 
         const dialogsElement = story.dialogs.map((dialog) => {
             return (
@@ -41,25 +52,24 @@ const Path:FC<{story: Story, setCurrentStoryState: React.Dispatch<SetStateAction
         });
         return (
             <>
-            {dialogsElement}
+                <h1>New screen</h1>
+                <p>You choosed {'"' + story.path + '"'} path</p>
+                <p>Choose dialog id:</p>
+                {dialogsElement}
+                <CreateDialog />
+                <button onClick={() => setCurrentStoryState(null)}>
+                    Return to main menu
+                </button>
             </>
         );
     }
 
     return (
     <div>
-        <h1>New screen</h1>
-        <p>You choosed {'\"' + story.path + '\"'} path</p>
-        <p>Choose dialog id:</p>
-        <DialogArr />
-        <CreateDialog />
-        <button onClick={() => setCurrentStoryState(null)}>
-            Return to main menu
-        </button>
+        <ConditionalComponent />
     </div>
     );
 }
-//TODO: Dialog object shoulde be over every other text
 
 
 export default Path;

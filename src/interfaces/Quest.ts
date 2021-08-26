@@ -1,4 +1,4 @@
 export interface Quest {
-    question: String,
+    question: string,
     nextQuestId: Number
 }

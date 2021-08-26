@@ -2,6 +2,6 @@ import { Quest } from "./Quest";
 
 export interface Dialog {
     id: number,
-    senderTextArr: Array<String>,
+    senderTextArr: Array<string>,
     questionArr: Array<Quest>
 }

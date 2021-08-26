@@ -1,7 +1,7 @@
-import React, { FC, SetStateAction } from 'react'
-import { useEffect } from 'react';
-import { useState } from 'react';
+import React, { FC, SetStateAction, useEffect, useState } from 'react'
+
 import { Story } from '../interfaces/Story'
+
 import Path from './Path';
 
 function Game() {
